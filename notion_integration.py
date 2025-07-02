@@ -172,33 +172,54 @@ def format_grouped_content(articles):
     content_blocks = []
     
     for article in articles:
-        block = f"""⸻
-
-🔹 **{article['title']}**
-
-Source: {article['source']}
-Why it matters: {article['why_matters']}
-Relevance Score: {article['relevance_score']}
-Tags: {article['tags']}"""
+        # Format tags - remove brackets and clean up
+        tags = article.get('tags', 'N/A')
+        if tags != 'N/A':
+            # Remove brackets and clean up formatting
+            tags = tags.replace('[', '').replace(']', '').replace(' ', ', ')
         
-        # Add explanation if available
-        if article['explanation'] != 'N/A' and article['explanation']:
-            block += f"\nExplanation: {article['explanation']}"
+        block = f"""🔹 **{article['title']}**
+
+📍 Source: {article['source']}
+💡 Why it matters: {article['why_matters']}
+🏷 Tags: {tags}
+🎯 Relevance Score: {article['relevance_score']}"""
         
-        # Always add the source link for further reading
-        if article['link']:
-            block += f"\n🔗 Read more: {article['link']}"
+        # Add explanation if available and different from why_matters
+        if article['explanation'] != 'N/A' and article['explanation'] and article['explanation'] != article['why_matters']:
+            block += f"\n{article['explanation']}"
         
         # Add action if available
         if article['action']:
-            block += f"\n\nAction:\n{article['action']}"
+            # Parse action to extract key details
+            action_lines = article['action'].strip().split('\n')
+            action_title = action_lines[0].replace('✅ **', '').replace('**', '').strip()
+            
+            block += f"\n\n✅ Suggested Action:\n{action_title}"
+            
+            # Extract time, outcome, and description from action
+            for line in action_lines[1:]:
+                if '• Time Estimate:' in line:
+                    time = line.replace('• Time Estimate:', '').strip()
+                    block += f"\n• Time: {time}"
+                elif '• Expected Outcome:' in line:
+                    outcome = line.replace('• Expected Outcome:', '').strip()
+                    block += f"\n• Outcome: {outcome}"
+                elif '• Description:' in line:
+                    desc = line.replace('• Description:', '').strip()
+                    if desc:
+                        block += f"\n• {desc}"
         else:
-            # Add a note if no specific action was generated for this article
-            block += f"\n\nAction: No specific action generated - bookmark for future reference."
+            block += f"\n\n📌 No specific action generated - bookmark for future reference."
         
+        # Add source link at the end of action section
+        if article['link']:
+            block += f"\n• [🔗 Read more]({article['link']})"
+        
+        block += "\n\n⸻"
         content_blocks.append(block)
     
-    return '\n\n'.join(content_blocks) + '\n\n⸻'
+    return '\n\n'.join(content_blocks)
 
 def create_notion_blocks(content):
     """Convert markdown content to Notion blocks."""
@@ -230,8 +251,8 @@ def create_notion_blocks(content):
                     ]
                 }
             })
-        elif line.startswith(('Source:', 'Why it matters:', 'Relevance Score:', 'Tags:', 'Action:')):
-            # Property line
+        elif line.startswith(('📍', '💡', '🏷', '🎯', '✅', '📌')):
+            # Emoji-prefixed lines
             blocks.append({
                 "object": "block",
                 "type": "paragraph",
@@ -239,12 +260,54 @@ def create_notion_blocks(content):
                     "rich_text": [
                         {
                             "type": "text",
-                            "text": {"content": line},
-                            "annotations": {"bold": True}
+                            "text": {"content": line}
                         }
                     ]
                 }
             })
+        elif line.startswith('• '):
+            # Bullet point items (for actions)
+            # Check if it contains a markdown link
+            if '[🔗' in line and '](' in line:
+                # Parse markdown link
+                parts = line.split('[🔗')
+                prefix = parts[0]
+                link_parts = parts[1].split('](')
+                link_text = '🔗 ' + link_parts[0].strip()
+                link_url = link_parts[1].rstrip(')')
+                
+                blocks.append({
+                    "object": "block",
+                    "type": "bulleted_list_item",
+                    "bulleted_list_item": {
+                        "rich_text": [
+                            {
+                                "type": "text",
+                                "text": {"content": prefix}
+                            },
+                            {
+                                "type": "text",
+                                "text": {
+                                    "content": link_text,
+                                    "link": {"url": link_url}
+                                }
+                            }
+                        ]
+                    }
+                })
+            else:
+                blocks.append({
+                    "object": "block",
+                    "type": "bulleted_list_item",
+                    "bulleted_list_item": {
+                        "rich_text": [
+                            {
+                                "type": "text",
+                                "text": {"content": line}
+                            }
+                        ]
+                    }
+                })
         else:
             # Regular paragraph
             blocks.append({
