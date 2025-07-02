@@ -1,0 +1,10 @@
+# Python dependencies for AI Strategy Brief with CrewAI + OpenRouter
+
+crewai
+langchain-openai
+python-dotenv
+feedparser
+requests
+beautifulsoup4
+lxml
+notion-client
