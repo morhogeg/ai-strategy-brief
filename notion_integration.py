@@ -171,7 +171,10 @@ def format_grouped_content(articles):
     """Format articles into grouped content blocks."""
     content_blocks = []
     
-    for article in articles:
+    # Sort articles by relevance score (highest first)
+    sorted_articles = sorted(articles, key=lambda x: int(x.get('relevance_score', 0)) if x.get('relevance_score', '0') != 'N/A' else 0, reverse=True)
+    
+    for article in sorted_articles:
         # Format tags - remove brackets and clean up
         tags = article.get('tags', 'N/A')
         if tags != 'N/A':
