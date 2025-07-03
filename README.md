@@ -2,7 +2,7 @@
 
 A modular, multi-agent system powered by CrewAI that delivers daily AI strategy briefs optimized for hands-on builders and agentic system designers.
 
-> ⚠️ **Note**: Note: This project is tuned for my personal workflow as an AI founder. The code is open to learn from, but it’s not meant to be forked as-is.
+> ⚠️ **Note** This project is tuned for my personal workflow as an AI founder. The code is open to learn from, but it’s not meant to be forked as-is.
 
 ## Overview
 
