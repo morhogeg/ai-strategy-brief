@@ -1,35 +1,41 @@
 # AI Strategy Brief Generator
 
-A multi-agent system using CrewAI that generates personalized daily AI strategy briefs by scanning 40+ high-quality AI sources and pushing curated insights to Notion.
+A modular, multi-agent system powered by CrewAI that delivers daily AI strategy briefs optimized for hands-on builders and agentic system designers.
 
-> **Note**: This is a personal productivity tool built for my specific workflow and interests. While the code is open for learning purposes, I kindly ask that you **not fork this repository**. Instead, please use it as inspiration to build your own version tailored to your needs. The agent personalities and data sources are specifically tuned for my use case as an AI founder focused on agent systems and RAG implementations.
+> ⚠️ **Note**: This system is personalized for my workflow as an AI founder. Please feel free to learn from the code, but avoid forking it directly — it's tuned specifically for my use case.
 
 ## Overview
 
-This system creates a daily AI strategy brief by:
-1. **Fetching real AI updates** from 40+ high-quality sources:
-   - Top AI research labs (Google AI, OpenAI, DeepMind, Meta AI)
-   - Famous AI thinkers' blogs (Andrej Karpathy, Swyx, Benedict Evans, Chip Huyen)
-   - Premium AI newsletters (Latent Space, Ben's Bites, Import AI)
-   - GitHub trending repos and Hacker News discussions
-2. **Processing through specialized agents**:
-   - **Signal Hunter**: Finds buildable agent/RAG projects with working code
-   - **Relevance Scorer**: Scores updates based on practical building opportunities
-   - **Action Generator**: Creates hands-on learning projects (30-60 min builds)
-   - **Brief Editor**: Compiles a polished strategy brief
-3. **Content freshness guarantee**: All content filtered to last 30 days only
-4. **Pushing to Notion** with full page content for each signal
+CrewAI coordinates 4 tightly scoped agents in a sequential pipeline: one collects signals, one scores relevance, one generates hands-on projects, and one publishes the brief.
 
-## Features
+**What it does:**
+• Scans 40+ curated AI sources (research labs, AI thinkers' blogs, newsletters, trending repos)
+• Filters and scores updates using 4 specialized agents working in sequence
+• Publishes full daily briefs to Notion with actionable project suggestions
+• Focuses only on buildable, hands-on content (not just news)
+• All updates are from the last 30 days only
+
+**Example Output:**
+```
+🔹 Build a CrewAI chatbot that summarizes your GitHub PRs
+• Source: Hacker News discussion
+• Why it matters: Uses RAG + CrewAI to create real-time engineering context
+• Relevance Score: 9/10
+• Time to build: 45 minutes
+• Link: [GitHub repo with working code]
+```
+
+## 💡 Why It Matters
+
+This isn't another AI news scraper. It's a personal intelligence tool that shows what's worth building, not just reading.
 
 - 🔍 **40+ Premium Sources**: Research labs, AI thinkers' blogs, newsletters, trending repos
-- 🤖 **Multi-agent orchestration** with CrewAI (4 specialized agents)
-- 🎯 **Hyper-personalized** scoring for agent systems, RAG, CrewAI/LangChain
-- 🛠️ **Actionable build projects**, not just reading material
-- ⏰ **30-day freshness filter** ensures all content is current
-- 📊 **Automatic Notion integration** with formatted pages
-- 🔗 **Direct links** to all sources for further reading
-- 🎖️ **Relevance scoring** prioritizes what you can actually build today
+- 🤖 **Sequential Agent Pipeline**: 4 specialized agents working in a defined workflow
+- 🎯 **Builder-focused Scoring**: Prioritizes agent systems, RAG, and practical implementations
+- 🛠️ **Actionable Projects**: 30-60 minute builds with step-by-step instructions
+- ⏰ **Fresh Content Only**: 30-day filter ensures everything is current
+- 📊 **Notion Integration**: Full pages with formatted briefs and project details
+- 🎖️ **Relevance Engine**: Scores what you can actually build today vs. just read about
 
 ## Setup
 
