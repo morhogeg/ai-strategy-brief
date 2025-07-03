@@ -150,7 +150,7 @@ MIT License - see LICENSE file for details
 
 ## Learning & Inspiration
 
-This project demonstrates several advanced concepts:
+This project demonstrates several key concepts:
 - **Multi-agent orchestration** with CrewAI
 - **Real-time data aggregation** from diverse sources
 - **Intelligent content filtering** and relevance scoring
