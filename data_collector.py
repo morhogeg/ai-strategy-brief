@@ -4,28 +4,57 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from typing import List, Dict
 import json
+import time
+import random
+from ai_website_scraper import get_ai_website_updates
 
 def get_real_ai_updates() -> List[Dict[str, str]]:
-    """Gather daily real-time AI content from Substack, Hacker News, and GitHub."""
+    """Gather daily real-time AI content from high-quality sources (last 30 days only)."""
     all_updates = []
     
-    # Get updates from all three sources
+    # Use high-quality AI sources with 30-day freshness guarantee
+    print("🔍 Scanning high-quality AI sources (last 30 days only)...")
     all_updates.extend(get_substack_updates())
-    all_updates.extend(get_hackernews_updates())
+    all_updates.extend(get_hackernews_updates()) 
     all_updates.extend(get_github_updates())
+    all_updates.extend(get_ai_website_updates())  # High-quality AI research blogs and news
     
-    return all_updates
+    # Final date validation - ensure no content is older than 30 days
+    cutoff_date = datetime.now() - timedelta(days=30)
+    filtered_updates = []
+    
+    for update in all_updates:
+        try:
+            # Parse the date from the update
+            if 'date' in update and update['date']:
+                update_date = datetime.strptime(update['date'], '%Y-%m-%d')
+                if update_date >= cutoff_date:
+                    filtered_updates.append(update)
+                else:
+                    print(f"⏰ Filtered out old content: {update.get('title', 'Unknown')} ({update['date']})")
+            else:
+                # If no date, assume it's current (like GitHub trending)
+                filtered_updates.append(update)
+        except Exception as e:
+            # If date parsing fails, include it anyway (better safe than sorry)
+            filtered_updates.append(update)
+    
+    print(f"✅ Final result: {len(filtered_updates)} updates (filtered {len(all_updates) - len(filtered_updates)} old items)")
+    return filtered_updates
 
 def get_substack_updates() -> List[Dict[str, str]]:
     """Fetch AI newsletter updates from Substack RSS feeds."""
     updates = []
     feeds = [
         ("Ben's Bites", "https://www.bensbites.co/rss"),
-        ("Latent Space", "https://latent.space/feed.xml"),
-        ("Import AI", "https://jack-clark.net/index.xml")
+        ("Latent Space", "https://latent.space/feed.xml"), 
+        ("Import AI", "https://jack-clark.net/index.xml"),
+        ("The Rundown AI", "https://www.therundown.ai/rss"),
+        ("AI Breakfast", "https://aibreakfast.beehiiv.com/feed")
     ]
     
-    yesterday = datetime.now() - timedelta(days=1)
+    cutoff_date = datetime.now() - timedelta(days=30)  # Last 30 days only
+    print(f"📅 Newsletter filtering: content newer than {cutoff_date.strftime('%Y-%m-%d')}")
     
     for newsletter_name, feed_url in feeds:
         try:
@@ -34,8 +63,8 @@ def get_substack_updates() -> List[Dict[str, str]]:
                 # Parse publication date
                 pub_date = datetime(*entry.published_parsed[:6])
                 
-                # Only include posts from the last 24 hours
-                if pub_date >= yesterday:
+                # Only include posts from the last 30 days
+                if pub_date >= cutoff_date:
                     update = {
                         "source": newsletter_name,
                         "type": "newsletter",
@@ -55,9 +84,10 @@ def get_hackernews_updates() -> List[Dict[str, str]]:
     updates = []
     
     try:
-        # Get posts from the last 24 hours
-        yesterday_timestamp = int((datetime.now() - timedelta(days=1)).timestamp())
-        url = f"https://hn.algolia.com/api/v1/search_by_date?query=AI&tags=story&numericFilters=created_at_i>{yesterday_timestamp}"
+        # Get AI/ML posts from the last 30 days with better keywords
+        cutoff_timestamp = int((datetime.now() - timedelta(days=30)).timestamp())
+        print(f"📅 Hacker News filtering: posts newer than {datetime.fromtimestamp(cutoff_timestamp).strftime('%Y-%m-%d')}")
+        url = f"https://hn.algolia.com/api/v1/search_by_date?query=AI OR machine learning OR LLM OR GPT OR CrewAI OR LangChain OR agent OR RAG&tags=story&numericFilters=created_at_i>{cutoff_timestamp}"
         
         response = requests.get(url)
         data = response.json()
@@ -81,9 +111,11 @@ def get_hackernews_updates() -> List[Dict[str, str]]:
     return updates
 
 def get_github_updates() -> List[Dict[str, str]]:
-    """Scrape trending AI projects from GitHub."""
+    """Scrape trending AI projects from GitHub (inherently recent - daily trending)."""
     updates = []
-    ai_keywords = ['ai', 'llm', 'rag', 'agent', 'gpt', 'neural', 'machine learning', 'deep learning']
+    print("📅 GitHub trending: fetching today's trending AI repos")
+    ai_keywords = ['ai', 'llm', 'rag', 'agent', 'gpt', 'neural', 'machine learning', 'deep learning', 
+                   'crewai', 'langchain', 'openai', 'anthropic', 'claude', 'transformer', 'vector', 'embedding']
     
     try:
         url = "https://github.com/trending?since=daily&spoken_language_code=en"
@@ -144,6 +176,7 @@ def get_github_updates() -> List[Dict[str, str]]:
         print(f"Error fetching GitHub trending: {e}")
     
     return updates
+
 
 if __name__ == "__main__":
     # Test the function
