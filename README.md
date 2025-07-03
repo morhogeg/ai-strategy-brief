@@ -2,7 +2,7 @@
 
 A modular, multi-agent system powered by CrewAI that delivers daily AI strategy briefs optimized for hands-on builders and agentic system designers.
 
-> ⚠️ **Note**: This system is personalized for my workflow as an AI founder. Please feel free to learn from the code, but avoid forking it directly — it's tuned specifically for my use case.
+> ⚠️ **Note**: Note: This project is tuned for my personal workflow as an AI founder. The code is open to learn from, but it’s not meant to be forked as-is.
 
 ## Overview
 
@@ -35,8 +35,6 @@ CrewAI coordinates 4 tightly scoped agents in a sequential pipeline:
 ```
 
 ## 💡 Why It Matters
-
-This isn't another AI news scraper. It's a personal intelligence tool that shows what's worth building, not just reading.
 
 - 🔍 **40+ Premium Sources**: Research labs, AI thinkers' blogs, newsletters, trending repos
 - 🤖 **Sequential Agent Pipeline**: 4 specialized agents working in a defined workflow
@@ -172,7 +170,7 @@ This project demonstrates several key concepts:
 - **Production-ready error handling** and fallbacks
 - **API integration** (OpenRouter, Notion, GitHub, RSS)
 
-Feel free to study the code and build your own version tailored to your specific needs and interests!
+Feel free to adapt the architecture, remix the agents, or extend it with your own data sources. That’s the point. Just please don’t fork it directly.
 
 ## 🤝 Contributing
 
