@@ -6,14 +6,18 @@ A modular, multi-agent system powered by CrewAI that delivers daily AI strategy 
 
 ## Overview
 
-CrewAI coordinates 4 tightly scoped agents in a sequential pipeline: one collects signals, one scores relevance, one generates hands-on projects, and one publishes the brief.
+CrewAI coordinates 4 tightly scoped agents in a sequential pipeline:
+• **Signal Hunter**: collects relevant updates
+• **Relevance Scorer**: filters and ranks based on buildability  
+• **Action Generator**: suggests 30–60 min hands-on projects
+• **Brief Editor**: compiles a clean, readable brief
 
 **What it does:**
-• Scans 40+ curated AI sources (research labs, AI thinkers' blogs, newsletters, trending repos)
-• Filters and scores updates using 4 specialized agents working in sequence
+• Scans 40+ curated AI sources (labs, blogs, newsletters, GitHub, Hacker News)
+• Filters and scores updates using 4 specialized agents
 • Publishes full daily briefs to Notion with actionable project suggestions
 • Focuses only on buildable, hands-on content (not just news)
-• All updates are from the last 30 days only
+• Filters to content from the last 30 days
 
 **Example Output:**
 ```
@@ -22,7 +26,7 @@ CrewAI coordinates 4 tightly scoped agents in a sequential pipeline: one collect
 • Why it matters: Uses RAG + CrewAI to create real-time engineering context
 • Relevance Score: 9/10
 • Time to build: 45 minutes
-• Link: [GitHub repo with working code]
+• Link: [View Repo](https://github.com/example/crewai-pr-summary)
 ```
 
 ## 💡 Why It Matters
@@ -37,7 +41,7 @@ This isn't another AI news scraper. It's a personal intelligence tool that shows
 - 📊 **Notion Integration**: Full pages with formatted briefs and project details
 - 🎖️ **Relevance Engine**: Scores what you can actually build today vs. just read about
 
-## Setup
+## 🚀 Setup
 
 ### Prerequisites
 
@@ -80,12 +84,12 @@ NOTION_DATABASE_ID=your_notion_database_id
 
 1. Create a new Notion integration at https://www.notion.so/my-integrations
 2. Create a new database in Notion with at least these properties:
-   - Name (title)
-   - Date (date)
+   • Name (must be the title column)
+   • Date (type: Date)
 3. Share the database with your integration
 4. Copy the database ID from the URL and add to `.env`
 
-## Usage
+## 🏃 Usage
 
 Run the strategy brief generator:
 ```bash
@@ -98,7 +102,7 @@ The system will:
 3. Generate a markdown brief
 4. Push to your Notion database with full page content
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ai-strategy-brief/
@@ -114,7 +118,7 @@ ai-strategy-brief/
 └── .env                      # Environment variables (not in repo)
 ```
 
-## Customization
+## ⚙️ Customization
 
 ### Agent Personalities
 
@@ -134,7 +138,7 @@ The system aggregates from multiple sources:
 
 To modify sources, edit the respective files based on your interests.
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### OpenRouter Configuration
 - Uses `mistralai/mistral-small-3.2-24b-instruct:free` model
@@ -150,11 +154,11 @@ The system only uses real URLs from source data. If links are missing, check tha
 - Verify the integration has access to your database
 - Check that required properties exist in your database
 
-## License
+## 📄 License
 
 MIT License - see LICENSE file for details
 
-## Learning & Inspiration
+## 📚 Learning & Inspiration
 
 This project demonstrates several key concepts:
 - **Multi-agent orchestration** with CrewAI
@@ -165,6 +169,6 @@ This project demonstrates several key concepts:
 
 Feel free to study the code and build your own version tailored to your specific needs and interests!
 
-## Contributing
+## 🤝 Contributing
 
 While I kindly ask not to fork this specific repository, I'm happy to discuss the architecture and implementation details. Feel free to reach out if you're building something similar!
