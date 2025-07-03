@@ -8,16 +8,15 @@ A modular, multi-agent system powered by CrewAI that delivers daily AI strategy 
 
 CrewAI coordinates 4 tightly scoped agents in a sequential pipeline:
 
-• **Signal Hunter**: collects relevant updates
-• **Relevance Scorer**: filters and ranks based on buildability  
-• **Action Generator**: suggests 30–60 min hands-on projects
-• **Brief Editor**: compiles a clean, readable brief
+• **Signal Hunter** – collects relevant updates      • **Relevance Scorer** – filters and ranks based on buildability  
+• **Action Generator** – suggests 30–60 min hands-on projects      • **Brief Editor** – compiles a clean, readable brief
 
 **What it does:**
-• Scans 40+ curated AI sources (labs, blogs, newsletters, GitHub, Hacker News)
-• Filters and scores updates using 4 specialized agents
-• Publishes full daily briefs to Notion with actionable project suggestions
-• Focuses only on buildable, hands-on content (not just news)
+
+• Scans 40+ curated AI sources (labs, blogs, newsletters, GitHub, Hacker News)  
+• Filters and scores updates using 4 specialized agents  
+• Publishes full daily briefs to Notion with actionable project suggestions  
+• Focuses only on buildable, hands-on content (not just news)  
 • Filters to content from the last 30 days
 
 **Example Output:**
