@@ -8,8 +8,11 @@ A modular, multi-agent system powered by CrewAI that delivers daily AI strategy 
 
 CrewAI coordinates 4 tightly scoped agents in a sequential pipeline:
 • Signal Hunter – scans curated AI sources and selects updates with real code and implementation value.
+
 • Relevance Scorer – ranks each update based on how actionable and buildable it is for agentic systems or RAG workflows.
+
 • Action Generator – turns top-ranked updates into 30–60 min hands-on coding tasks with clear outcomes.
+
 • Brief Editor – compiles a polished daily brief with project instructions, context, and clickable source links.
 
 **What it does:**
