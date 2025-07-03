@@ -7,6 +7,7 @@ A modular, multi-agent system powered by CrewAI that delivers daily AI strategy 
 ## Overview
 
 CrewAI coordinates 4 tightly scoped agents in a sequential pipeline:
+
 • **Signal Hunter**: collects relevant updates
 • **Relevance Scorer**: filters and ranks based on buildability  
 • **Action Generator**: suggests 30–60 min hands-on projects
