@@ -1,26 +1,35 @@
 # AI Strategy Brief Generator
 
-A multi-agent system using CrewAI that generates personalized daily AI strategy briefs by scanning real-world AI sources and pushing curated insights to Notion.
+A multi-agent system using CrewAI that generates personalized daily AI strategy briefs by scanning 40+ high-quality AI sources and pushing curated insights to Notion.
+
+> **Note**: This is a personal productivity tool built for my specific workflow and interests. While the code is open for learning purposes, I kindly ask that you **not fork this repository**. Instead, please use it as inspiration to build your own version tailored to your needs. The agent personalities and data sources are specifically tuned for my use case as an AI founder focused on agent systems and RAG implementations.
 
 ## Overview
 
 This system creates a daily AI strategy brief by:
-1. **Fetching real AI updates** from multiple sources (Substack RSS feeds, Hacker News, GitHub Trending)
+1. **Fetching real AI updates** from 40+ high-quality sources:
+   - Top AI research labs (Google AI, OpenAI, DeepMind, Meta AI)
+   - Famous AI thinkers' blogs (Andrej Karpathy, Swyx, Benedict Evans, Chip Huyen)
+   - Premium AI newsletters (Latent Space, Ben's Bites, Import AI)
+   - GitHub trending repos and Hacker News discussions
 2. **Processing through specialized agents**:
    - **Signal Hunter**: Finds buildable agent/RAG projects with working code
    - **Relevance Scorer**: Scores updates based on practical building opportunities
-   - **Action Generator**: Creates hands-on learning projects
+   - **Action Generator**: Creates hands-on learning projects (30-60 min builds)
    - **Brief Editor**: Compiles a polished strategy brief
-3. **Pushing to Notion** with full page content for each signal
+3. **Content freshness guarantee**: All content filtered to last 30 days only
+4. **Pushing to Notion** with full page content for each signal
 
 ## Features
 
-- 🔍 Real-time scanning of AI news and repositories
-- 🤖 Multi-agent orchestration with CrewAI
-- 🎯 Personalized scoring based on your interests (agent systems, RAG, CrewAI/LangChain)
-- 🛠️ Actionable build projects, not just reading material
-- 📊 Automatic Notion integration with formatted pages
-- 🔗 Direct links to all sources for further reading
+- 🔍 **40+ Premium Sources**: Research labs, AI thinkers' blogs, newsletters, trending repos
+- 🤖 **Multi-agent orchestration** with CrewAI (4 specialized agents)
+- 🎯 **Hyper-personalized** scoring for agent systems, RAG, CrewAI/LangChain
+- 🛠️ **Actionable build projects**, not just reading material
+- ⏰ **30-day freshness filter** ensures all content is current
+- 📊 **Automatic Notion integration** with formatted pages
+- 🔗 **Direct links** to all sources for further reading
+- 🎖️ **Relevance scoring** prioritizes what you can actually build today
 
 ## Setup
 
@@ -34,8 +43,8 @@ This system creates a daily AI strategy brief by:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/morhogeg/AIBrief.git
-cd AIBrief
+git clone https://github.com/morhogeg/ai-strategy-brief.git
+cd ai-strategy-brief
 ```
 
 2. Create a virtual environment:
@@ -87,11 +96,15 @@ The system will:
 
 ```
 ai-strategy-brief/
-├── crew_strategy_brief.py    # Main orchestrator with CrewAI agents
-├── data_collector.py          # Fetches updates from multiple sources
-├── llm_config.py             # OpenRouter LLM configuration
-├── notion_integration.py      # Pushes formatted briefs to Notion
+├── crew_strategy_brief.py     # Main orchestrator with CrewAI agents
+├── ai_website_scraper.py      # Scrapes 23 high-quality AI sources (research labs + thinkers)
+├── data_collector.py          # Aggregates updates from all sources with 30-day filtering
+├── llm_config.py             # OpenRouter LLM configuration (Mistral)
+├── notion_integration.py      # Pushes formatted briefs to Notion with full pages
+├── crew_linkedin_only.py      # Alternative LinkedIn-focused workflow (deprecated)
+├── linkedin_scraper.py        # LinkedIn post scraper (deprecated due to blocking)
 ├── requirements.txt          # Python dependencies
+├── .env.example              # Environment variable template
 └── .env                      # Environment variables (not in repo)
 ```
 
@@ -107,15 +120,21 @@ Modify agent backstories and goals in `crew_strategy_brief.py` to match your int
 
 ### Data Sources
 
-Add or modify sources in `data_collector.py`:
-- RSS feeds: Add to `substack_feeds` list
-- Hacker News: Adjust search keywords
-- GitHub: Modify trending parameters
+The system aggregates from multiple sources:
+- **AI Research Blogs**: `ai_website_scraper.py` contains 23 high-quality sources
+- **Newsletters**: `data_collector.py` includes top AI newsletters  
+- **Social/Community**: Hacker News AI discussions and GitHub trending
+- **Famous AI Thinkers**: Personal blogs from Andrej Karpathy, Swyx, Benedict Evans, and others
+
+To modify sources, edit the respective files based on your interests.
 
 ## Troubleshooting
 
-### OpenRouter Rate Limits
-Free tier allows 50 requests/day. Add credits ($10 for 1000 requests) if you hit limits.
+### OpenRouter Configuration
+- Uses `mistralai/mistral-small-3.2-24b-instruct:free` model
+- Free tier has rate limits - add credits if you hit limits
+- Ensure your API key is configured for the specific model you want to use
+- Some free models require adding provider-specific API keys
 
 ### Missing Links
 The system only uses real URLs from source data. If links are missing, check that the source actually provided them.
@@ -129,6 +148,17 @@ The system only uses real URLs from source data. If links are missing, check tha
 
 MIT License - see LICENSE file for details
 
+## Learning & Inspiration
+
+This project demonstrates several advanced concepts:
+- **Multi-agent orchestration** with CrewAI
+- **Real-time data aggregation** from diverse sources
+- **Intelligent content filtering** and relevance scoring
+- **Production-ready error handling** and fallbacks
+- **API integration** (OpenRouter, Notion, GitHub, RSS)
+
+Feel free to study the code and build your own version tailored to your specific needs and interests!
+
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+While I kindly ask not to fork this specific repository, I'm happy to discuss the architecture and implementation details. Feel free to reach out if you're building something similar!
